@@ -6,7 +6,7 @@ class Mapper:
         self.fs=fs
 
     def get_spectrogram(self, X, omega=5, n_channels=50):
-        assert isinstance(X, np.array), 'X should be numpy array'
+        assert isinstance(X, np.ndarray), 'X should be numpy array'
         assert X.ndim==2, 'dimension of X should be 2'
         n_frames, n_features = X.shape
 
