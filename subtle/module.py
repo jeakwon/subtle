@@ -235,6 +235,7 @@ def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBe
             c_prev = c
         else:
             c = assign_cluster(c, c_prev)
-        supcluster = {x:c[x] for x in range(MAX)}
+        print(np.unique(X), c_prev)
+        supcluster = {x:c[x] for x in np.unique(X)}
         supclusters.append(supcluster)
     return supclusters
