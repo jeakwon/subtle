@@ -20,7 +20,7 @@ class Mapper:
         dataset = [Data(X) for X in Xs]
 
         for data in dataset:
-            data.spectrogram = self.get_spectrogram(X)
+            data.spectrogram = self.get_spectrogram(data.X)
 
         S = np.concatenate([data.spectrogram for data in dataset])
         S = np.random.permutation(S)[:self.n_train_frames]
