@@ -1,2 +1,2 @@
-from . import function
-from . import mapper
+from .function import *
+from .mapper import *

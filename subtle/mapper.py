@@ -3,7 +3,7 @@ from subtle.function import morlet_cwt
 
 class Mapper:
     def __init__(self, fs):
-        self.fs
+        self.fs=fs
 
     def get_spectrogram(self, X, omega=5, n_channels=50):
         assert isinstance(X, np.array), 'X should be numpy array'
