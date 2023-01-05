@@ -27,7 +27,7 @@ class Mapper:
         PC = self.pca.fit_transform(S); print('fit PCA done')
         self.Z = self.umap.fit_transform(PC); print('fit UMAP done')
         self.y = self.pheno.fit_predict(self.Z); print('fit Phenograph done')
-        self.subclusters = np.unique(y)
+        self.subclusters = np.unique(self.y)
 
         for data in tqdm(dataset, desc="Inferring..."):
             data.PC = self.pca.transform(data.S)
