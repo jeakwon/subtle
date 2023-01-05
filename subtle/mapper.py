@@ -25,8 +25,8 @@ class Mapper:
         S = np.concatenate([data.S for data in dataset])
         S = np.random.permutation(S)[:self.n_train_frames]
         PC = self.pca.fit_transform(S); print('fit PCA done')
-        Z = self.umap.fit_transform(PC); print('fit UMAP done')
-        y = self.pheno.fit_predict(Z); print('fit Phenograph done')
+        self.Z = self.umap.fit_transform(PC); print('fit UMAP done')
+        self.y = self.pheno.fit_predict(self.Z); print('fit Phenograph done')
         self.subclusters = np.unique(y)
 
         for data in tqdm(dataset, desc="Inferring..."):
@@ -42,9 +42,11 @@ class Mapper:
         a = np.concatenate([data.y[:-int(self.avg_tau)] for data in dataset])
         b = np.concatenate([data.y[int(self.avg_tau):] for data in dataset])
         self.supclusters = run_DIB(a, b); print('run DIB complete')
+        self.Y = np.array([list(map(lambda y:sup[y], self.y)) for sup in self.supclusters]).T
 
         for data in dataset:
             data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
+        
 
         self.trained = True
         print('Done training.')
