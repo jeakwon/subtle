@@ -194,7 +194,7 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     HTs = np.zeros(N)
     
     MAX = max(X.max(), Y.max())
-    pXY = np.histogram2d(X, Y, bins=MAX-1, range=[[-0.5, MAX-0.5], [-0.5, MAX-0.5]])[0]
+    pXY = np.histogram2d(X, Y, bins=MAX-1, range=[[-0.5, MAX-0.5], [-0.5, MAX-0.5]])[0]; print(pXY.shape)
     
     for i in range(N):
         betas[i] = 10**(minLogBeta + (maxLogBeta-minLogBeta)*np.random.rand())
@@ -204,7 +204,7 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
         if i%readout == 0:
             print ('Calculating for Iteration #%6i out of %6i' % (i,N))
     
-    idx = findParetoFront(np.vstack((-HTs, IYTs)).T)
+    idx = findParetoFront(np.vstack((-HTs, IYTs)).T); print(HTs.shape, IYTs.shape, idx)
     clusterings = [clusterings[i] for i in np.where(idx)[0]]
     IYTs = IYTs[idx]
     HTs = HTs[idx]
@@ -223,7 +223,7 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     numClusters = numClusters[idx]
     
     clusterings = np.array(clusterings); print(clusterings.shape)
-    clusterValues = np.unique(numClusters); print(clusterValues.shape)
+    clusterValues = np.unique(numClusters)
     clusterChoices = np.zeros(len(numClusters), dtype=bool)
     for i in range(len(clusterValues)):
         idx = np.where(numClusters == clusterValues[i])[0][-1]
