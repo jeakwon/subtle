@@ -20,9 +20,9 @@ class Mapper:
         dataset = [Data(X) for X in Xs]
 
         for data in dataset:
-            data.spectrogram = self.get_spectrogram(data.X)
+            data.S = self.get_spectrogram(data.X)
 
-        S = np.concatenate([data.spectrogram for data in dataset])
+        S = np.concatenate([data.S for data in dataset])
         S = np.random.permutation(S)[:self.n_train_frames]
         PC = self.pca.fit_transform(S)
         Z = self.umap.fit_transform(PC)
@@ -32,7 +32,7 @@ class Mapper:
         for data in dataset:
             data.PC = self.pca.transform(data.S)
             data.Z = self.umap.transform(data.PC)
-            data.y = self.get_spectrogram(data.Z)
+            data.y = self.pheno.fit_predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
             data.tau = -1 / np.log( data.lambda2 ) * 2
@@ -54,9 +54,9 @@ class Mapper:
         
         dataset = [Data(X) for X in Xs]        
         for data in dataset:
-            data.S = self.cwt(data.X)
+            data.S = self.get_spectrogram(data.X)
             data.PC = self.pca.transform(data.S)
-            data.Z = self.embedding.transform(data.PC[:self.maxPC])
+            data.Z = self.umap.transform(data.PC)
             data.y = self.subcluster.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
