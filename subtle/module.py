@@ -228,14 +228,19 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     for i in range(len(clusterValues)):
         idx = np.where(numClusters == clusterValues[i])[0][-1]
         clusterChoices[idx] = True
+    
+    ret = {"clusterings": clusterings, "IYTs": IYTs, "HTs": HTs, "numClusters": numClusters, "betas": betas, "clusterChoices": clusterChoices}
 
     supclusters = []
-    for c in clusterings[clusterChoices]:
-        if len(np.unique(c)) == 1:
-            c_prev = c
-        else:
-            c = assign_cluster(c, c_prev)
-        print(np.unique(X), c_prev)
-        supcluster = {x:c[x] for x in np.unique(X)}
-        supclusters.append(supcluster)
+    for i, boo in enumerate(ret['clusterChoices']):
+        if boo:
+            z = ret['clusterings'][i]
+            if len(np.unique(z)) == 1:
+                z_prev = z
+            else:
+                z = assign_cluster(z, z_prev)
+                z_prev = z
+            
+            supcluster = {x:z[x] for x in np.unique(X)}
+            supclusters.append(supcluster)
     return supclusters
