@@ -13,7 +13,7 @@ class Mapper:
         cwts = []
         for i in range(num_features):
             x = X[:, i]
-            cwt = morlet_cwt(x, fs=self.fs, omega, n_channels).T # [n_frames, n_channels]
+            cwt = morlet_cwt(x, fs=self.fs, omega=omega, n_channels=n_channels).T # [n_frames, n_channels]
             cwts.append(cwt)
         cwts = np.hstack(cwts) # [n_frames, n_channels * n_features]
         return cwts

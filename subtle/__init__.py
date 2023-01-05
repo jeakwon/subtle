@@ -1,1 +1,2 @@
-from subtle import function
+from . import function
+from . import mapper
