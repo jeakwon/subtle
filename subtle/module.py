@@ -199,7 +199,7 @@ def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBe
     for i in range(N):
         betas[i] = 10**(minLogBeta + (maxLogBeta-minLogBeta)*np.random.rand())
         k = minClusters + np.random.randint(maxClusters - minClusters)
-        clusterings[i],IYTs[i],HTs[i],_,_ = deterministicInformationBottleneck(pXY,k,None,betas[i],1e-7,2000)
+        clusterings[i],IYTs[i],HTs[i],_,_ = deterministicInformationBottleneck(pXY,k,None,betas[i],1e-7,1000)
         numClusters[i] = len(np.unique(clusterings[i]))
         if i%readout == 0:
             print ('Calculating for Iteration #%6i out of %6i' % (i,N))
