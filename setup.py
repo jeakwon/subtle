@@ -10,5 +10,3 @@ setup(
    install_requires=['numpy','pandas','scipy', 'scikit-learn', 'opentsne', 'umap-learn', 'PhenoGraph','tqdm'], 
    python_requires='>=3.7',
 )
-Footer
-© 2023 GitH
