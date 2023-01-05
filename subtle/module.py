@@ -185,7 +185,7 @@ def assign_cluster(z, z_prev):
         z_new[z==prev_label]=i
     return z_new
 
-def run_DIB(X, Y, N=10000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
+def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
     
     betas = np.zeros(N)
     numClusters = np.zeros(N, dtype=int)
