@@ -193,11 +193,9 @@ def run_DIB(X, Y, N=100, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     IYTs = np.zeros(N)
     HTs = np.zeros(N)
     
-    # a = np.unique(X)
-    # b = np.unique(Y)
-    # pXY = np.histogram2d(X, Y, bins=(len(a),len(b)))[0]
-    MAX = max(X.max(), Y.max())
-    pXY = np.histogram2d(X, Y, bins=MAX-1, range=[[-0.5, MAX-0.5], [-0.5, MAX-0.5]])[0]
+    a = np.unique(X)
+    b = np.unique(Y)
+    pXY = np.histogram2d(X, Y, bins=(len(a),len(b)))[0]
     
     for i in range(N):
         betas[i] = 10**(minLogBeta + (maxLogBeta-minLogBeta)*np.random.rand())
