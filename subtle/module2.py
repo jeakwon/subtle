@@ -177,14 +177,6 @@ def findParetoFront(X):
     
     return idx
 
-def assign_cluster(z, z_prev):
-    M = contingency_matrix(z_prev, z)
-    prev_labels = M.argmax(axis=1)
-    z_new = np.zeros_like(z)+len(np.unique(z))-1
-    for i, prev_label in enumerate(prev_labels):
-        z_new[z==prev_label]=i
-    return z_new
-
 def run_DIB(X, Y, N=10000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
     
     betas = np.zeros(N)
@@ -223,13 +215,11 @@ def run_DIB(X, Y, N=10000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogB
     HTs = HTs[idx]
     numClusters = numClusters[idx]
     
-    clusterings = np.array(clusterings)
     clusterValues = np.unique(numClusters)
     clusterChoices = np.zeros(len(numClusters), dtype=bool)
     for i in range(len(clusterValues)):
         idx = np.where(numClusters == clusterValues[i])[0][-1]
         clusterChoices[idx] = True
-
     supclusters = []
     for c in clusterings[clusterChoices]:
         if len(np.unique(c)) == 1:
