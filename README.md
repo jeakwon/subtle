@@ -2,5 +2,5 @@
 Spectrogram-UMAP-based Temporal Link Embedding
 
 ```
-pip install git+https://github.com/jeakwon/khan.git
+pip install git+https://github.com/jeakwon/subtle.git
 ```
