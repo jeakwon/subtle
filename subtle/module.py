@@ -222,8 +222,8 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     HTs = HTs[idx]
     numClusters = numClusters[idx]
     
-    clusterings = np.array(clusterings)
-    clusterValues = np.unique(numClusters)
+    clusterings = np.array(clusterings); print(clusterings.shape)
+    clusterValues = np.unique(numClusters); print(clusterValues.shape)
     clusterChoices = np.zeros(len(numClusters), dtype=bool)
     for i in range(len(clusterValues)):
         idx = np.where(numClusters == clusterValues[i])[0][-1]
