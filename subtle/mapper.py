@@ -1,9 +1,9 @@
 import numpy as np
+from tqdm import tqdm
+from sklearn.preprocessing import normalize
 from sklearn.decomposition import PCA
 from openTSNE import TSNE
 from umap import UMAP
-from typing import List
-
 from subtle.module import morlet_cwt, Data, Phenograph, run_DIB
 
 class Mapper:
