@@ -14,6 +14,9 @@ class Data:
     def __init__(self, X):
         self.X = X
 
+    def __repr__(self):
+        return 'SUBTLE Data'
+
 class Phenograph:
     def __init__(
         self, 

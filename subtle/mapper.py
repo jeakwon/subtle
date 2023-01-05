@@ -58,7 +58,7 @@ class Mapper:
             data.S = self.get_spectrogram(data.X)
             data.PC = self.pca.transform(data.S)
             data.Z = self.umap.transform(data.PC)
-            data.y = self.subcluster.predict(data.Z)
+            data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
             data.tau = -1 / np.log( data.lambda2 ) * 2
