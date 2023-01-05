@@ -72,10 +72,10 @@ class Phenograph:
 # https://github.com/bermanlabemory/behavioral-evolution
 
 def deterministicInformationBottleneck(pXY, k, f0=None, beta=1, tol=1e-6, maxIter=1000):
-    # if isinstance(pXY, list):
-    #     a = np.unique(pXY[0])
-    #     b = np.unique(pXY[1])
-    #     pXY = np.histogram2d(pXY[0], pXY[1], bins=(a,b))[0]
+    if isinstance(pXY, list):
+        a = np.unique(pXY[0])
+        b = np.unique(pXY[1])
+        pXY = np.histogram2d(pXY[0], pXY[1], bins=(a,b))[0]
     pXY = pXY / np.sum(pXY)
     pX = np.sum(pXY, axis=0)
     pY_X = pXY / pX
@@ -185,7 +185,7 @@ def assign_cluster(z, z_prev):
         z_new[z==prev_label]=i
     return z_new
 
-def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
+def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
     
     betas = np.zeros(N)
     numClusters = np.zeros(N, dtype=int)
@@ -193,13 +193,14 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     IYTs = np.zeros(N)
     HTs = np.zeros(N)
     
-    MAX = max(X.max(), Y.max())
-    pXY = np.histogram2d(X, Y, bins=MAX-1, range=[[-0.5, MAX-0.5], [-0.5, MAX-0.5]])[0]; print(pXY.shape)
+    a = np.unique(X)
+    b = np.unique(Y)
+    pXY = np.histogram2d(X, Y, bins=(len(a),len(b)))[0]
     
     for i in range(N):
         betas[i] = 10**(minLogBeta + (maxLogBeta-minLogBeta)*np.random.rand())
         k = minClusters + np.random.randint(maxClusters - minClusters)
-        clusterings[i],IYTs[i],HTs[i],_,_ = deterministicInformationBottleneck(pXY,k,None,betas[i],1e-7,1000)
+        clusterings[i],IYTs[i],HTs[i],_,_ = deterministicInformationBottleneck(pXY,k,None,betas[i],1e-7,2000)
         numClusters[i] = len(np.unique(clusterings[i]))
         if i%readout == 0:
             print ('Calculating for Iteration #%6i out of %6i' % (i,N))
@@ -222,13 +223,13 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
     HTs = HTs[idx]
     numClusters = numClusters[idx]
     
-    clusterings = np.array(clusterings); print(clusterings.shape)
+    clusterings = np.array(clusterings)
     clusterValues = np.unique(numClusters)
     clusterChoices = np.zeros(len(numClusters), dtype=bool)
     for i in range(len(clusterValues)):
         idx = np.where(numClusters == clusterValues[i])[0][-1]
         clusterChoices[idx] = True
-    
+
     supclusters = []
     for c in clusterings[clusterChoices]:
         if len(np.unique(c)) == 1:
