@@ -185,7 +185,7 @@ def assign_cluster(z, z_prev):
         z_new[z==prev_label]=i
     return z_new
 
-def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
+def run_DIB(X, Y, N=100, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBeta=4, readout=100):
     
     betas = np.zeros(N)
     numClusters = np.zeros(N, dtype=int)
@@ -200,7 +200,7 @@ def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBe
     for i in range(N):
         betas[i] = 10**(minLogBeta + (maxLogBeta-minLogBeta)*np.random.rand())
         k = minClusters + np.random.randint(maxClusters - minClusters)
-        clusterings[i],IYTs[i],HTs[i],_,_ = deterministicInformationBottleneck(pXY,k,None,betas[i],1e-7,2000)
+        clusterings[i],IYTs[i],HTs[i],_,_ = deterministicInformationBottleneck(pXY,k,None,betas[i],1e-7,100)
         numClusters[i] = len(np.unique(clusterings[i]))
         if i%readout == 0:
             print ('Calculating for Iteration #%6i out of %6i' % (i,N))
