@@ -19,17 +19,17 @@ class Mapper:
     def train(self, Xs):
         dataset = [Data(X) for X in Xs]
 
-        for data in dataset:
+        for data in tqdm(dataset, desc="Extracting spectrograms"):
             data.S = self.get_spectrogram(data.X)
 
         S = np.concatenate([data.S for data in dataset])
         S = np.random.permutation(S)[:self.n_train_frames]
-        PC = self.pca.fit_transform(S)
-        Z = self.umap.fit_transform(PC)
-        y = self.pheno.fit_predict(Z)
+        PC = self.pca.fit_transform(S); print('fit PCA done')
+        Z = self.umap.fit_transform(PC); print('fit UMAP done')
+        y = self.pheno.fit_predict(Z); print('fit Phenograph done')
         self.subclusters = np.unique(y)
 
-        for data in dataset:
+        for data in tqdm(dataset, desc="Inferring..."):
             data.PC = self.pca.transform(data.S)
             data.Z = self.umap.transform(data.PC)
             data.y = self.pheno.fit_predict(data.Z)
@@ -37,23 +37,24 @@ class Mapper:
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
             data.tau = -1 / np.log( data.lambda2 ) * 2
 
-        print('Traning supercluster model...')
+        print('Running DIB for creating supercluster...')
         self.avg_tau = sum([data.tau for data in dataset])/len(dataset)
         a = np.concatenate([data.y[:-int(self.avg_tau)] for data in dataset])
         b = np.concatenate([data.y[int(self.avg_tau):] for data in dataset])
-        self.supclusters = run_DIB(a, b)
+        self.supclusters = run_DIB(a, b); print('run DIB complete')
 
         for data in dataset:
             data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
 
         self.trained = True
+        print('Done training.')
         return dataset
 
     def __call__(self, Xs):
         assert self.trained, 'Model not trained. Train the model first.'
         
         dataset = [Data(X) for X in Xs]        
-        for data in dataset:
+        for data in tqdm(dataset, desc="Mapping..."):
             data.S = self.get_spectrogram(data.X)
             data.PC = self.pca.transform(data.S)
             data.Z = self.umap.transform(data.PC)

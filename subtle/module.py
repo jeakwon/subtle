@@ -125,7 +125,7 @@ def deterministicInformationBottleneck(pXY, k, f0=None, beta=1, tol=1e-6, maxIte
                 pY_T[i,:] = 0
         pYT = pY_T*pT[:, np.newaxis]
         pY = np.sum(pYT, axis=0)
-        temp = pYT * np.log2(pYT / (pT[:, None]*pY))
+        temp = pYT * np.log2(pYT / (pT[:, None]*pY +1e-8))
         IYT = np.sum(temp[~np.isnan(temp) & ~np.isinf(temp)])
 
         J = HT - beta*IYT
