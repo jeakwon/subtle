@@ -1,3 +1,4 @@
+import numpy as np
 from scipy import signal
 
 def morlet_cwt(x, fs, omega, n_channels):
