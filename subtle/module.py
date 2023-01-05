@@ -204,7 +204,7 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
         if i%readout == 0:
             print ('Calculating for Iteration #%6i out of %6i' % (i,N))
     
-    idx = findParetoFront(np.vstack((-HTs, IYTs)).T); print(HTs.shape, IYTs.shape, idx)
+    idx = findParetoFront(np.vstack((-HTs, IYTs)).T); print(len(idx))
     clusterings = [clusterings[i] for i in np.where(idx)[0]]
     IYTs = IYTs[idx]
     HTs = HTs[idx]
