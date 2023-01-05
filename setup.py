@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-   name='khan',
+   name='subtle',
    version='1.0',
    description='Spectrogram-UMAP-Based Temporal Link Embedding',
    author='Jea Kwon',
