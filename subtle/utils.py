@@ -1,10 +1,10 @@
-# https://github.com/bermanlabemory/motionmapperpy/tree/master/motionmapperpy
 
 import copy
 import numpy as np
 from scipy.fft import fft2, ifft2, fftshift
 
 def getDensityBounds(density, thresh=1e-6):
+    # https://github.com/bermanlabemory/motionmapperpy/tree/master/motionmapperpy
     """
     Get the outline for density maps.
     :param density: m by n density image.
@@ -24,6 +24,7 @@ def getDensityBounds(density, thresh=1e-6):
     return bounds.astype(int)
     
 def findPointDensity(zValues, sigma, numPoints, rangeVals):
+    # https://github.com/bermanlabemory/motionmapperpy/tree/master/motionmapperpy
     """
     findPointDensity finds a Kernel-estimated PDF from a set of 2D data points
     through convolving with a gaussian function.
