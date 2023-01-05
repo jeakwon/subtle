@@ -204,11 +204,11 @@ def run_DIB(X, Y, N=200, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBet
         if i%readout == 0:
             print ('Calculating for Iteration #%6i out of %6i' % (i,N))
     
-    idx = findParetoFront(np.vstack((-HTs, IYTs)).T); print(len(idx), index.sum())
+    idx = findParetoFront(np.vstack((-HTs, IYTs)).T)
     clusterings = [clusterings[i] for i in np.where(idx)[0]]
     IYTs = IYTs[idx]
     HTs = HTs[idx]
-    numClusters = numClusters[idx]
+    numClusters = numClusters[idx]; print(len(idx), index.sum(), numClusters)
     
     sortIdx = np.argsort(IYTs)
     clusterings = [clusterings[i] for i in sortIdx]
