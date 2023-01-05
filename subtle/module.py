@@ -72,10 +72,10 @@ class Phenograph:
 # https://github.com/bermanlabemory/behavioral-evolution
 
 def deterministicInformationBottleneck(pXY, k, f0=None, beta=1, tol=1e-6, maxIter=1000):
-    if isinstance(pXY, list):
-        a = np.unique(pXY[0])
-        b = np.unique(pXY[1])
-        pXY = np.histogram2d(pXY[0], pXY[1], bins=(a,b))[0]
+    # if isinstance(pXY, list):
+    #     a = np.unique(pXY[0])
+    #     b = np.unique(pXY[1])
+    #     pXY = np.histogram2d(pXY[0], pXY[1], bins=(a,b))[0]
     pXY = pXY / np.sum(pXY)
     pX = np.sum(pXY, axis=0)
     pY_X = pXY / pX
@@ -193,9 +193,8 @@ def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBe
     IYTs = np.zeros(N)
     HTs = np.zeros(N)
     
-    a = np.unique(X)
-    b = np.unique(Y)
-    pXY = np.histogram2d(X, Y, bins=(len(a),len(b)))[0]
+    MAX = max(X.max(), Y.max())
+    pXY = np.histogram2d(X, Y, bins=MAX-1, range=[[-0.5, MAX-0.5], [-0.5, MAX-0.5]])[0]
     
     for i in range(N):
         betas[i] = 10**(minLogBeta + (maxLogBeta-minLogBeta)*np.random.rand())
