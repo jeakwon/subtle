@@ -17,7 +17,7 @@ class Mapper:
         self.umap = UMAP(n_neighbors=50, n_components=2)
         self.pheno = Phenograph()
 
-    def train(self, Xs):
+    def fit(self, Xs):
         dataset = [Data(X) for X in Xs]
 
         for data in tqdm(dataset, desc="Extracting spectrograms"):
@@ -54,7 +54,7 @@ class Mapper:
         print('Done training.')
         return dataset
 
-    def __call__(self, Xs):
+    def run(self, Xs):
         assert self.trained, 'Model not trained. Train the model first.'
         
         dataset = [Data(X) for X in Xs]        

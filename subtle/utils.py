@@ -3,6 +3,14 @@ import copy
 import numpy as np
 from scipy.fft import fft2, ifft2, fftshift
 
+def avatar_preprocess(X):
+    T, VC = X.shape
+    C = 3
+    X = X.reshape(T, VC//C, C)
+    X -= X.mean((0, 1))
+    X = X.reshape(T, VC)
+    return X
+
 def getDensityBounds(density, thresh=1e-6):
     # https://github.com/bermanlabemory/motionmapperpy/tree/master/motionmapperpy
     """
