@@ -231,11 +231,14 @@ def run_DIB(X, Y, N=1000, minClusters=2, maxClusters=30, minLogBeta=-1, maxLogBe
         clusterChoices[idx] = True
 
     supclusters = []
-    for c in clusterings[clusterChoices]:
-        if len(np.unique(c)) == 1:
-            c_prev = c
-        else:
-            c = assign_cluster(c, c_prev)
-        supcluster = {x:c[x] for x in np.unique(X)}
-        supclusters.append(supcluster)
+    for i, boo in enumerate(clusterChoices):
+        if boo:
+            z = clusterings[i]
+            if len(np.unique(z)) == 1:
+                z_prev = z
+            else:
+                z = assign_cluster(z, z_prev)
+                z_prev = z
+            supcluster = {x:z[x] for x in np.unique(X)}
+            supclusters.append(supcluster)
     return supclusters
