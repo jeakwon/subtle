@@ -22,15 +22,16 @@ class Mapper:
         for data in tqdm(dataset, desc="Extracting spectrograms"):
             data.S = self.get_spectrogram(data.X)
 
-        S = np.concatenate([data.S for data in dataset])
-        S = np.random.permutation(S)[:self.n_train_frames]
-        PC = self.pca.fit_transform(S); print('fit PCA done')
+        XS = np.concatenate([np.hstack([data.X, data.S]) for data in dataset])
+        XS = np.random.permutation(XS)[:self.n_train_frames]
+        PC = self.pca.fit_transform(XS); print('fit PCA done')
         self.Z = self.umap.fit_transform(PC); print('fit UMAP done')
         self.y = self.pheno.fit_predict(self.Z); print('fit Phenograph done')
         self.subclusters = np.unique(self.y)
 
         for data in tqdm(dataset, desc="Inferring..."):
-            data.PC = self.pca.transform(data.S)
+            XS = np.hstack([data.X, data.S])
+            data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
@@ -42,11 +43,10 @@ class Mapper:
         a = np.concatenate([data.y[:-int(self.avg_tau)] for data in dataset])
         b = np.concatenate([data.y[int(self.avg_tau):] for data in dataset])
         self.supclusters = run_DIB(a, b); print('run DIB complete')
+        self.Y = np.array([list(map(lambda y:sup[y], self.y)) for sup in self.supclusters]).T
 
         for data in dataset:
             data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
-        
-
         self.trained = True
         print('Done training.')
         return dataset
@@ -57,7 +57,8 @@ class Mapper:
         dataset = [Data(X) for X in Xs]        
         for data in tqdm(dataset, desc="Mapping..."):
             data.S = self.get_spectrogram(data.X)
-            data.PC = self.pca.transform(data.S)
+            XS = np.hstack([data.X, data.S])
+            data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
