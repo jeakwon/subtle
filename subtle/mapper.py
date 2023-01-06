@@ -1,6 +1,6 @@
 import numpy as np
 from tqdm import tqdm
-from sklearn.preprocessing import normalize
+from sklearn.preprocessing import normalize, StandardScaler
 from sklearn.decomposition import PCA
 from openTSNE import TSNE
 from umap import UMAP
@@ -12,6 +12,7 @@ class Mapper:
         self.trained=False
         self.n_train_frames = n_train_frames
 
+        self.scaler = StandardScaler()
         self.pca = PCA(100)
         self.umap = UMAP(n_neighbors=50, n_components=2)
         self.pheno = Phenograph()
@@ -24,6 +25,7 @@ class Mapper:
 
         XS = np.concatenate([np.hstack([data.X, data.S]) for data in dataset])
         XS = np.random.permutation(XS)[:self.n_train_frames]
+        XS = self.scaler.fit_transform( np.nan_to_num(XS, 0) )
         PC = self.pca.fit_transform(XS); print('fit PCA done')
         self.Z = self.umap.fit_transform(PC); print('fit UMAP done')
         self.y = self.pheno.fit_predict(self.Z); print('fit Phenograph done')
@@ -31,6 +33,7 @@ class Mapper:
 
         for data in tqdm(dataset, desc="Inferring..."):
             XS = np.hstack([data.X, data.S])
+            XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
             data.y = self.pheno.predict(data.Z)
@@ -58,6 +61,7 @@ class Mapper:
         for data in tqdm(dataset, desc="Mapping..."):
             data.S = self.get_spectrogram(data.X)
             XS = np.hstack([data.X, data.S])
+            XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
             data.y = self.pheno.predict(data.Z)
