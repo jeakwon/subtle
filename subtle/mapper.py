@@ -71,6 +71,12 @@ class Mapper:
             data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
         return dataset
 
+    def save(self, filepath):
+        assert self.trained, 'Model not trained. Train the model first.'
+
+        with open(filepath, 'wb') as f:
+            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+
     def get_spectrogram(self, X, omega=5, n_channels=50):
         assert isinstance(X, np.ndarray), 'X should be numpy array'
         assert X.ndim==2, 'dimension of X should be 2'
