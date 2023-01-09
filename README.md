@@ -7,6 +7,7 @@ pip install git+https://github.com/jeakwon/subtle.git
 
 ## Prepare dataset
 ```python
+import subtle
 import pandas as pd
 
 # Dataset for training (5 young 5 adult mice)
@@ -51,8 +52,6 @@ for csv in y3a6:
 
 ## Training and Mapping
 ```python
-import subtle
-
 mapper = subtle.Mapper(fs=20) # fs, sampling frequency
 output1 = mapper.fit(dataset1)
 output2 = mapper.run(dataset2)
