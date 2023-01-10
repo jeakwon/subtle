@@ -61,6 +61,12 @@ output1 = mapper.fit(dataset1)
 output2 = mapper.run(dataset2)
 ```
 
+## Save and Load trained model
+```python
+mapper.save('trained_model.pkl')
+mapper = subtle.load('trained_model.pkl')
+```
+
 ## Visualize trained result
 ```python
 
