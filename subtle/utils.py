@@ -3,6 +3,11 @@ import copy
 import numpy as np
 from scipy.fft import fft2, ifft2, fftshift
 
+def load(filepath):
+    with open(filepath, 'wr') as f:
+        model = pickle.dump(f, pickle.HIGHEST_PROTOCOL)
+    return model
+
 def avatar_preprocess(X):
     T, VC = X.shape
     C = 3
