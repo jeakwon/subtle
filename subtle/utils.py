@@ -6,7 +6,7 @@ from scipy.fft import fft2, ifft2, fftshift
 
 def load(filepath):
     with open(filepath, 'rb') as f:
-        model = pickle.load(f, pickle.HIGHEST_PROTOCOL)
+        model = pickle.load(f)
     return model
 
 def avatar_preprocess(X):
