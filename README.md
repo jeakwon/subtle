@@ -2,11 +2,11 @@
 SUBTLE (Spectrogram-UMAP-based Temporal Link Embedding) is a animal behavior mapper.
 
 ```
-pip install git+https://github.com/jeakwon/subtle.git
+pip install -U git+https://github.com/jeakwon/subtle.git
 ```
 or
 ```
-pip install https://github.com/jeakwon/subtle/archive/refs/heads/main.zip
+pip install -U https://github.com/jeakwon/subtle/archive/refs/heads/main.zip
 ```
 
 ## Prepare dataset
