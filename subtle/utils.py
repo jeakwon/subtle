@@ -5,7 +5,7 @@ import numpy as np
 from scipy.fft import fft2, ifft2, fftshift
 
 def load(filepath):
-    with open(filepath, 'wr') as f:
+    with open(filepath, 'rb') as f:
         model = pickle.dump(f, pickle.HIGHEST_PROTOCOL)
     return model
 
