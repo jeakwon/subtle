@@ -8,15 +8,23 @@ from umap import UMAP
 from subtle.module import morlet_cwt, Data, Phenograph, run_DIB
 
 class Mapper:
-    def __init__(self, fs, embedding_method='umap', n_train_frames=120000):
+    def __init__(self, fs, output_metric='hyperboloid', n_train_frames=120000):
         self.fs=fs
         self.trained=False
         self.n_train_frames = n_train_frames
 
         self.scaler = StandardScaler()
         self.pca = PCA(100)
-        self.umap = UMAP(n_neighbors=50, n_components=2)
+        self.umap = UMAP(output_metric=output_metric, n_neighbors=50, n_components=2)
         self.pheno = Phenograph()
+
+    def _to_poincare_disk(self, emb):
+        x = emb[:, 0]
+        y = emb[:, 1]
+        z = np.sqrt(1 + np.sum(emb**2, axis=1))
+        disk_x = x / (1 + z)
+        disk_y = y / (1 + z)
+        return np.stack((disk_x, disk_y), axis=-1)
 
     def fit(self, Xs):
         dataset = [Data(X) for X in Xs]
@@ -28,15 +36,17 @@ class Mapper:
         XS = np.random.permutation(XS)[:self.n_train_frames]
         XS = self.scaler.fit_transform( np.nan_to_num(XS, 0) )
         PC = self.pca.fit_transform(XS); print('fit PCA done')
-        self.Z = self.umap.fit_transform(PC); print('fit UMAP done')
-        self.y = self.pheno.fit_predict(self.Z); print('fit Phenograph done')
+        hyperbolic_embedding = self.umap.fit_transform(PC); print('fit UMAP done')
+        self.poincare_disk = _to_poincare_disk(hyperbolic_embedding)
+        self.y = self.pheno.fit_predict(self.poincare_disk); print('fit Phenograph done')
         self.subclusters = np.unique(self.y)
 
         for data in tqdm(dataset, desc="Inferring..."):
             XS = np.hstack([data.X, data.S])
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
-            data.Z = self.umap.transform(data.PC)
+            _hyperbolic_embedding = self.umap.transform(data.PC)
+            data.Z = _to_poincare_disk(_hyperbolic_embedding)
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
