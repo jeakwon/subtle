@@ -37,7 +37,7 @@ class Mapper:
         XS = self.scaler.fit_transform( np.nan_to_num(XS, 0) )
         PC = self.pca.fit_transform(XS); print('fit PCA done')
         hyperbolic_embedding = self.umap.fit_transform(PC); print('fit UMAP done')
-        self.poincare_disk = _to_poincare_disk(hyperbolic_embedding)
+        self.poincare_disk = self._to_poincare_disk(hyperbolic_embedding)
         self.y = self.pheno.fit_predict(self.poincare_disk); print('fit Phenograph done')
         self.subclusters = np.unique(self.y)
 
@@ -75,7 +75,7 @@ class Mapper:
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             _hyperbolic_embedding = self.umap.transform(data.PC)
-            data.Z = _to_poincare_disk(_hyperbolic_embedding)
+            data.Z = self._to_poincare_disk(_hyperbolic_embedding)
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
