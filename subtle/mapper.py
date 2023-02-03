@@ -46,7 +46,7 @@ class Mapper:
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             _hyperbolic_embedding = self.umap.transform(data.PC)
-            data.Z = _to_poincare_disk(_hyperbolic_embedding)
+            data.Z = self._to_poincare_disk(_hyperbolic_embedding)
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
