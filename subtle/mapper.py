@@ -15,7 +15,7 @@ class Mapper:
 
         self.scaler = StandardScaler()
         self.pca = PCA(100)
-        self.umap = UMAP(output_metric=output_metric, n_neighbors=50, n_components=2)
+        self.umap = UMAP(output_metric=output_metric, n_neighbors=15, n_components=2)
         self.pheno = Phenograph()
 
     def _to_poincare_disk(self, emb):
