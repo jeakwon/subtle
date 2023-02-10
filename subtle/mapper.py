@@ -10,6 +10,7 @@ from subtle.module import morlet_cwt, Data, Phenograph, run_DIB
 class Mapper:
     def __init__(self, fs, embedding_method='umap', n_train_frames=120000):
         self.fs=fs
+        self.dt=1/fs
         self.trained=False
         self.n_train_frames = n_train_frames
 
@@ -41,6 +42,7 @@ class Mapper:
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
             data.tau = -1 / np.log( data.lambda2 ) * 2
+            data.tau = min(data.tau, self.dt/2) # set minimum tau to be half of the inter-frame-interval
 
         print('Running DIB for creating supercluster...')
         self.avg_tau = sum([data.tau for data in dataset])/len(dataset)
