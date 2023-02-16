@@ -82,6 +82,15 @@ df.to_csv('y.csv', header=None, index=None)
 # export superclusters
 df = pd.DataFrame(output.Y)
 df.to_csv('Y.csv', header=None, index=None)
+
+# export transition probabilities
+df = pd.DataFrame(output.TP)
+df.to_csv('TP.csv', header=None, index=None)
+
+# export retention rate
+df = pd.DataFrame(output.R)
+df.to_csv('TP.csv', header=None, index=None)
+
 ```
 
 ## Visualize trained result
