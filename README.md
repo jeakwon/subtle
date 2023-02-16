@@ -67,7 +67,7 @@ mapper.save('trained_model.pkl')
 mapper = subtle.load('trained_model.pkl')
 ```
 
-###
+### Save output result into csv file
 ```python
 output = output1[0]
 
