@@ -1,4 +1,6 @@
+import os
 import numpy as np
+import pandas as pd
 from scipy import signal
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics.cluster import contingency_matrix
