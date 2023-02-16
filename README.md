@@ -67,6 +67,23 @@ mapper.save('trained_model.pkl')
 mapper = subtle.load('trained_model.pkl')
 ```
 
+###
+```python
+output = output1[0]
+
+# export embeddings
+df = pd.DataFrame(output.Z)
+df.to_csv('Z.csv', header=None, index=None)
+
+# export subclusters
+df = pd.DataFrame(output.y)
+df.to_csv('y.csv', header=None, index=None)
+
+# export superclusters
+df = pd.DataFrame(output.Y)
+df.to_csv('Y.csv', header=None, index=None)
+```
+
 ## Visualize trained result
 ```python
 
