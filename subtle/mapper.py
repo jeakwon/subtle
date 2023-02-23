@@ -41,7 +41,7 @@ class Mapper:
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
-            data.tau = -1 / np.log( data.lambda2 ) * 2
+            data.tau = -1 / np.log( np.abs(data.lambda2) ) * 2
             data.tau = max(data.tau, self.dt/2) # set minimum tau to be half of the inter-frame-interval
 
         print('Running DIB for creating supercluster...')
@@ -70,7 +70,7 @@ class Mapper:
             data.y = self.pheno.predict(data.Z)
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
-            data.tau = -1 / np.log( data.lambda2 ) * 2
+            data.tau = -1 / np.log( np.abs(data.lambda2) ) * 2
             data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
         return dataset
 
