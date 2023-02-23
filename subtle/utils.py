@@ -62,3 +62,48 @@ def findPointDensity(zValues, sigma, numPoints, rangeVals):
     density[density < 0] = 0
     bounds = getDensityBounds(density)
     return bounds, xx, density
+
+
+def shuffle_dataset_with_min_distance_no_overlap(dataset, seg_len, hop_len):
+    """
+    Shuffles a time-series dataset by dividing it into non-overlapping segments of
+    seg_len frames with hop_len frames between adjacent segments, and then shuffling
+    the order of the segments while minimizing the distance between consecutive
+    segments based on the last hop_len frames of the current segment and the first
+    hop_len frames of the next segment.
+
+    Args:
+    - dataset: a 2D numpy array with shape (n_frames, n_features)
+    - seg_len: an integer specifying the number of frames in each segment
+    - hop_len: an integer specifying the number of frames between adjacent segments
+
+    Returns:
+    - shuffled_dataset: a 2D numpy array with the same shape as dataset, but with the
+    segments shuffled while minimizing the distance between consecutive segments
+    """
+
+    # Create non-overlapping segments
+    n_frames, n_features = dataset.shape
+    n_segments = n_frames // seg_len
+    segments = np.array_split(dataset, n_segments)
+
+    # Shuffle segments while minimizing distance between consecutive segments
+    shuffled_segments = []
+    # Randomly select the first segment
+    first_segment = segments.pop(np.random.randint(len(segments)))
+    shuffled_segments.append(first_segment)
+    while len(segments) > 0:
+        min_distance = np.inf
+        min_segment = None
+        for segment in segments:
+            distance = np.linalg.norm(shuffled_segments[-1][-hop_len:] - segment[:hop_len])
+            if distance < min_distance:
+                min_distance = distance
+                min_segment = segment
+        shuffled_segments.append(min_segment)
+        segments = [s for s in segments if not np.array_equal(s, min_segment)]
+
+    # Concatenate segments back into a single dataset
+    shuffled_dataset = np.concatenate(shuffled_segments, axis=0)
+
+    return shuffled_dataset
