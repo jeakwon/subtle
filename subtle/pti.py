@@ -1,3 +1,5 @@
+
+
 def proximal_transition_index(transition_matrix, centroids):
     d = pairwise_distances(centroids, centroids)+1e-12
     d_inv = 1/d
