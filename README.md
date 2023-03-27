@@ -41,24 +41,34 @@ y3a6 = [
     'https://raw.githubusercontent.com/jeakwon/subtle/main/dataset/y3a6/coords/young_8789.csv',
 ]
 
-dataset1 = []
+training_dataset = []
+training_nameset = []
 for csv in y5a5:
     X = pd.read_csv(csv, header=None).values
     X = subtle.avatar_preprocess(X) # subtract coordinates with global mean of (x, y, z)
-    dataset1.append(X)
+    training_dataset.append(X)
 
-dataset2 = []
+    training_name = csv.split('/')[-1].replace('.csv', '')
+    training_nameset.append(training_name)
+    
+
+mapping_dataset = []
+mapping_nameset = []
 for csv in y3a6:
     X = pd.read_csv(csv, header=None).values
     X = subtle.avatar_preprocess(X) # subtract coordinates with global mean of (x, y, z)
-    dataset2.append(X)
+    mapping_dataset.append(X)
+
+    mapping_name = csv.split('/')[-1].replace('.csv', '')
+    mapping_nameset.append(mapping_name)
+    
 ```
 
 ## Training and Mapping
 ```python
 mapper = subtle.Mapper(fs=20) # fs, sampling frequency
-output1 = mapper.fit(dataset1)
-output2 = mapper.run(dataset2)
+training_outputs = mapper.fit(training_dataset)
+mapping_outputs = mapper.run(mapping_dataset)
 ```
 
 ## Save and Load trained model
@@ -67,29 +77,29 @@ mapper.save('trained_model.pkl')
 mapper = subtle.load('trained_model.pkl')
 ```
 
-### Save output result into csv file
+### Save output result into csv files
 ```python
-output = output1[0]
+for name, output in zip(training_nameset, training_outputs):
 
-# export embeddings
-df = pd.DataFrame(output.Z)
-df.to_csv('Z.csv', header=None, index=None)
+    # export embeddings
+    df = pd.DataFrame(output.Z)
+    df.to_csv(name+'_embeddings.csv', header=None, index=None)
 
-# export subclusters
-df = pd.DataFrame(output.y)
-df.to_csv('y.csv', header=None, index=None)
+    # export subclusters
+    df = pd.DataFrame(output.y)
+    df.to_csv(name+'_subclusters.csv', header=None, index=None)
 
-# export superclusters
-df = pd.DataFrame(output.Y)
-df.to_csv('Y.csv', header=None, index=None)
+    # export superclusters
+    df = pd.DataFrame(output.Y)
+    df.to_csv(name+'_superclusters.csv', header=None, index=None)
 
-# export transition probabilities
-df = pd.DataFrame(output.TP)
-df.to_csv('TP.csv', header=None, index=None)
+    # export transition probabilities
+    df = pd.DataFrame(output.TP)
+    df.to_csv(name+'transition_probabilities.csv', header=None, index=None)
 
-# export retention rate
-df = pd.DataFrame(output.R)
-df.to_csv('TP.csv', header=None, index=None)
+    # export retention rate
+    df = pd.DataFrame(output.R)
+    df.to_csv(name+'retention_rate.csv', header=None, index=None)
 
 ```
 
