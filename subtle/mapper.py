@@ -26,7 +26,7 @@ class Mapper:
         for data in tqdm(dataset, desc="Extracting spectrograms"):
             data.S = self.get_spectrogram(data.X)
 
-        XS = np.concatenate([np.hstack([data.X, data.S]) if include_coordinates else data.S for data in dataset])
+        XS = np.concatenate([np.hstack([data.X, data.S]) if self.include_coordinates else data.S for data in dataset])
         XS = np.random.permutation(XS)[:self.n_train_frames]
         XS = self.scaler.fit_transform( np.nan_to_num(XS, 0) )
         PC = self.pca.fit_transform(XS); print('fit PCA done')
@@ -35,7 +35,7 @@ class Mapper:
         self.subclusters = np.unique(self.y)
 
         for data in tqdm(dataset, desc="Inferring..."):
-            XS = np.hstack([data.X, data.S]) if include_coordinates else data.S
+            XS = np.hstack([data.X, data.S]) if self.include_coordinates else data.S
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
@@ -68,7 +68,7 @@ class Mapper:
         dataset = [Data(X) for X in Xs]        
         for data in tqdm(dataset, desc="Mapping..."):
             data.S = self.get_spectrogram(data.X)
-            XS = np.hstack([data.X, data.S]) if include_coordinates else data.S
+            XS = np.hstack([data.X, data.S]) if self.include_coordinates else data.S
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
