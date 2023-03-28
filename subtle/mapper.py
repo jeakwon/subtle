@@ -8,7 +8,7 @@ from umap import UMAP
 from subtle.module import morlet_cwt, Data, Phenograph, run_DIB
 
 class Mapper:
-    def __init__(self, fs, embedding_method='umap', n_train_frames=120000):
+    def __init__(self, fs, embedding_method='umap', n_train_frames=120000, include_coordinates=True):
         self.fs=fs
         self.dt=1/fs
         self.trained=False
@@ -18,6 +18,7 @@ class Mapper:
         self.pca = PCA(100)
         self.umap = UMAP(n_neighbors=50, n_components=2)
         self.pheno = Phenograph()
+        self.include_coordinates = include_coordinates
 
     def fit(self, Xs):
         dataset = [Data(X) for X in Xs]
@@ -25,7 +26,7 @@ class Mapper:
         for data in tqdm(dataset, desc="Extracting spectrograms"):
             data.S = self.get_spectrogram(data.X)
 
-        XS = np.concatenate([np.hstack([data.X, data.S]) for data in dataset])
+        XS = np.concatenate([np.hstack([data.X, data.S]) if include_coordinates else data.S for data in dataset])
         XS = np.random.permutation(XS)[:self.n_train_frames]
         XS = self.scaler.fit_transform( np.nan_to_num(XS, 0) )
         PC = self.pca.fit_transform(XS); print('fit PCA done')
@@ -34,7 +35,7 @@ class Mapper:
         self.subclusters = np.unique(self.y)
 
         for data in tqdm(dataset, desc="Inferring..."):
-            XS = np.hstack([data.X, data.S])
+            XS = np.hstack([data.X, data.S]) if include_coordinates else data.S
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
@@ -43,18 +44,22 @@ class Mapper:
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
             data.tau = -1 / np.log( np.abs(data.lambda2) ) * 2
             data.tau = max(data.tau, self.dt/2) # set minimum tau to be half of the inter-frame-interval
+        
+        try:
+            print('Running DIB for creating supercluster...')
+            self.avg_tau = sum([data.tau for data in dataset])/len(dataset)
+            a = np.concatenate([data.y[:-int(self.avg_tau)] for data in dataset])
+            b = np.concatenate([data.y[int(self.avg_tau):] for data in dataset])
+            self.supclusters = run_DIB(a, b); print('run DIB complete')
+            self.Y = np.array([list(map(lambda y:sup[y], self.y)) for sup in self.supclusters]).T
 
-        print('Running DIB for creating supercluster...')
-        self.avg_tau = sum([data.tau for data in dataset])/len(dataset)
-        a = np.concatenate([data.y[:-int(self.avg_tau)] for data in dataset])
-        b = np.concatenate([data.y[int(self.avg_tau):] for data in dataset])
-        self.supclusters = run_DIB(a, b); print('run DIB complete')
-        self.Y = np.array([list(map(lambda y:sup[y], self.y)) for sup in self.supclusters]).T
-
-        for data in dataset:
-            data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
-        self.trained = True
-        print('Done training.')
+            for data in dataset:
+                data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
+            self.trained = True
+            print('Done training.')
+        except Exception as e:
+            print('Error occured while superclustering', e)
+            
         return dataset
 
     def run(self, Xs):
@@ -63,7 +68,7 @@ class Mapper:
         dataset = [Data(X) for X in Xs]        
         for data in tqdm(dataset, desc="Mapping..."):
             data.S = self.get_spectrogram(data.X)
-            XS = np.hstack([data.X, data.S])
+            XS = np.hstack([data.X, data.S]) if include_coordinates else data.S
             XS = self.scaler.transform( np.nan_to_num(XS, 0) )
             data.PC = self.pca.transform(XS)
             data.Z = self.umap.transform(data.PC)
@@ -71,7 +76,9 @@ class Mapper:
             data.TP, data.R = self.get_transition_probability(data.y)
             data.lambda2 = np.abs(np.linalg.eig(data.TP)[0][1])
             data.tau = -1 / np.log( np.abs(data.lambda2) ) * 2
+            data.tau = max(data.tau, self.dt/2) # set minimum tau to be half of the inter-frame-interval
             data.Y = np.array([list(map(lambda y:sup[y], data.y)) for sup in self.supclusters]).T
+            
         return dataset
 
     def save(self, filepath):
