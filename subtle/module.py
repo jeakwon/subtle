@@ -18,6 +18,10 @@ class Data:
 
     def __repr__(self):
         return 'SUBTLE Data'
+    
+    def save(self, filepath):
+        with open(filepath, 'wb') as f:
+            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)        
 
 class Phenograph:
     def __init__(
