@@ -1,4 +1,17 @@
+from sklearn.cluster import MiniBatchKMeans
 
+def transition_matrix(transitions, states):
+    state2index = {k:i for i, k in enumerate(states)}
+    
+    transitions = list(map(lambda x: state2index[x], transitions))
+    n = len(states)
+    
+    M = np.zeros(shape=(n, n))
+
+    for (i,j) in zip(transitions, transitions[1:]):
+        M[i, j] += 1
+
+    return pd.DataFrame(data=M, columns=states, index=states)
 
 def proximal_transition_index(transition_matrix, centroids):
     d = pairwise_distances(centroids, centroids)+1e-12
