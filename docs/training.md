@@ -1,5 +1,5 @@
 # Train model and save results from local data directory
-"""python
+```python
 import os
 import subtle
 import pandas as pd
@@ -34,10 +34,10 @@ model.save(save_path)
 results_save_path = os.path.join(SAVE_DIR, results.pkl)
 with open('results.pkl', 'wb') as f:
     pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
-"""
+```
 
 # Load model and results from local
-"""python
+```python
 import os
 import subtle
 import pandas as pd
@@ -57,4 +57,4 @@ with open(results_save_path, 'rb') as f:
 
 names = results['names']
 outputs = results['outputs']
-"""
+```
