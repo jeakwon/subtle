@@ -5,8 +5,8 @@ import subtle
 import pandas as pd
 import pickle
 
-DATA_DIR = "./data/" # your data dir
-SAVE_DIR = "./save/" # your save dir 
+DATA_DIR = "<data_dir>" # replace with yours
+SAVE_DIR = "<save_dir>" # replace with yours
 os.makedirs(SAVE_DIR, exist_ok=True) # create if not exist
 
 # Prepare datasets
@@ -43,8 +43,8 @@ import subtle
 import pandas as pd
 import pickle
 
-DATA_DIR = "./data/" # your data dir
-SAVE_DIR = "./save/" # your save dir 
+DATA_DIR = "<data_dir>" # replace with yours
+SAVE_DIR = "<save_dir>" # replace with yours
 
 model_save_path = os.path.join(SAVE_DIR, model.pkl)
 results_save_path = os.path.join(SAVE_DIR, results.pkl)
