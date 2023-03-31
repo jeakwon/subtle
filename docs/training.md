@@ -28,7 +28,7 @@ results = dict(names=names, outputs=outputs)
 
 # Save model
 model_save_path = os.path.join(SAVE_DIR, model.pkl)
-model.save(save_path)
+model.save(model_save_path)
 
 # Save results
 results_save_path = os.path.join(SAVE_DIR, results.pkl)
