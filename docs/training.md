@@ -32,7 +32,7 @@ model.save(model_save_path)
 
 # Save results
 results_save_path = os.path.join(SAVE_DIR, 'results.pkl')
-with open('results.pkl', 'wb') as f:
+with open(results_save_path, 'wb') as f:
     pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
 ```
 
