@@ -68,7 +68,9 @@ df_umap = pd.DataFrame(model.Z, columns=['dim1', 'dim2'])
 df_sub = pd.DataFrame(model.y, columns=['subcluster'])
 df = pd.concat([df_umap, df_sub], axis=1)
 subcluster_center = df.groupby('subcluster').mean()
-x, y = subcluster_center['dim1'], subcluster_center['dim2']
+k = len(subcluster_center)
+x = subcluster_center['dim1']
+y = subcluster_center['dim2']
 
 # plot 
 sns.set('notebook')
