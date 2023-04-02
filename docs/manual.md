@@ -162,6 +162,6 @@ for name, output in zip(names, outputs):
     result = dict(zip(unique_values, counts))
     result['name'] = name
     results.append(result)
-df = pd.DataFrame(results).fillna(0).set_index('name').apply(lambda x:x/x.sum(), axis=1)
-df.T.to_csv(os.path.join(SAVE_DIR, 'subcluster_stay_rate.csv'))
+df = pd.DataFrame(results).fillna(0).set_index('name').apply(lambda x:x/x.sum(), axis=1).T
+df.to_csv(os.path.join(SAVE_DIR, 'subcluster_stay_rate.csv'))
 ```
