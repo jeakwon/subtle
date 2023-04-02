@@ -91,3 +91,59 @@ for n in n_superclusters:
         ax[idx].set_title(f'Superclusters (n={n})')
 ```
 
+# 4. Save data and visualize individual output 
+```python
+for name, output in zip(names, outputs):
+    dirname = os.path.join(SAVE_DIR, name)
+    os.makedirs(dirname, exist_ok=True)
+
+    # export embeddings
+    embeddings = pd.DataFrame(output.Z)
+    embeddings.to_csv(os.path.join(dirname, 'embeddings.csv'), header=None, index=None)
+
+    # export subclusters
+    subclusters = pd.DataFrame(output.y)
+    subclusters.to_csv(os.path.join(dirname, 'subclusters.csv'), header=None, index=None)
+
+    # export superclusters
+    superclusters = pd.DataFrame(output.Y)
+    superclusters.to_csv(os.path.join(dirname, 'superclusters.csv'), header=None, index=None)
+
+    # export transition probabilities
+    transition_probabilities = pd.DataFrame(output.TP)
+    transition_probabilities.to_csv(os.path.join(dirname, 'transition_probabilities.csv'), header=None, index=None)
+
+    # export retention rate
+    retention_rate = pd.DataFrame(output.R)
+    retention_rate.to_csv(os.path.join(dirname, 'retention_rate.csv'), header=None, index=None)
+
+    # export visualization file
+    visualization_sup = pd.concat([embeddings, superclusters[6]], axis=1)
+    visualization_sup.to_csv(os.path.join(dirname, 'visualization_sup.csv'), header=None)
+    visualization_sub = pd.concat([embeddings, subclusters], axis=1)
+    visualization_sub.to_csv(os.path.join(dirname, 'visualization_sub.csv'), header=None)
+
+    # visualize activity
+    sns.set('notebook')
+    sns.set_style('white')
+
+    n_superclusters = [2,3,4,5,6,7,8]
+    fig, ax = plt.subplots(1, 1+len(n_superclusters), figsize=(40, 5), sharex=True, sharey=True, dpi=100)
+    ax[0].scatter(model.Z[:, 0], model.Z[:, 1], s=1, c='#AAAAAA') # backgroud map
+    sns.scatterplot(x=output.Z[:, 0], y=output.Z[:, 1], s=1, hue=output.y, palette='viridis', ax=ax[0], legend=False)
+    for i in range(len(subcluster_center.index)):
+        ax[0].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
+        ax[0].set_title(f'Subclusters (k={k})')
+
+    for n in n_superclusters:
+        idx = n-1
+        ax[idx].scatter(model.Z[:, 0], model.Z[:, 1], s=1, c='#AAAAAA') # backgroud map
+        sns.scatterplot(x=output.Z[:, 0], y=output.Z[:, 1], s=1, hue=output.Y[:, idx], palette='tab10', ax=ax[idx])
+        for i in range(len(subcluster_center.index)):
+            ax[idx].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
+            ax[idx].set_title(f'Superclusters (n={n})')
+
+    fig.suptitle(name)
+    fig.savefig(os.path.join(dirname, 'embedding_visualize.png'))
+    plt.show()
+```
