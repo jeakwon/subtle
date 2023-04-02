@@ -46,8 +46,8 @@ import pickle
 DATA_DIR = "<data_dir>" # replace with yours
 SAVE_DIR = "<save_dir>" # replace with yours
 
-model_save_path = os.path.join(SAVE_DIR, model.pkl)
-results_save_path = os.path.join(SAVE_DIR, results.pkl)
+model_save_path = os.path.join(SAVE_DIR, 'model.pkl')
+results_save_path = os.path.join(SAVE_DIR, 'results.pkl')
 
 model = subtle.load(model_save_path)
 
