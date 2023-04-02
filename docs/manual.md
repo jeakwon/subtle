@@ -63,6 +63,12 @@ outputs = results['outputs']
 
 # 3. Visualize trained model
 ```python
+
+# how many superclusters to include for visualization?)
+n_superclusters = [2,3,4,5,6,7,8]
+# the resoludation of figure
+dpi = 300
+
 # get subcluster coordinates
 df_umap = pd.DataFrame(model.Z, columns=['dim1', 'dim2'])
 df_sub = pd.DataFrame(model.y, columns=['subcluster'])
@@ -76,8 +82,8 @@ y = subcluster_center['dim2']
 sns.set('notebook')
 sns.set_style('white')
 
-n_superclusters = [2,3,4,5,6,7,8]
-fig, ax = plt.subplots(1, 1+len(n_superclusters), figsize=(40, 5), sharex=True, sharey=True, dpi=100)
+num_axes = 1+len(n_superclusters)
+fig, ax = plt.subplots(1, num_axes, figsize=(5*num_axes, 5), sharex=True, sharey=True, dpi=dpi)
 sns.scatterplot(x=model.Z[:, 0], y=model.Z[:, 1], s=1, hue=model.y, palette='viridis', ax=ax[0], legend=False)
 for i in range(len(subcluster_center.index)):
     ax[0].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
@@ -93,6 +99,13 @@ for n in n_superclusters:
 
 # 4. Save data and visualize individual output 
 ```python
+
+# how many superclusters to include for visualization?)
+n_superclusters = [2,3,4,5,6,7,8]
+# the resoludation of figure
+dpi = 300
+
+
 for name, output in zip(names, outputs):
     dirname = os.path.join(SAVE_DIR, name)
     os.makedirs(dirname, exist_ok=True)
@@ -126,9 +139,9 @@ for name, output in zip(names, outputs):
     # visualize activity
     sns.set('notebook')
     sns.set_style('white')
-
-    n_superclusters = [2,3,4,5,6,7,8]
-    fig, ax = plt.subplots(1, 1+len(n_superclusters), figsize=(40, 5), sharex=True, sharey=True, dpi=100)
+    
+    num_axes = 1+len(n_superclusters)
+    fig, ax = plt.subplots(1, num_axes, figsize=(5*num_axes, 5), sharex=True, sharey=True, dpi=dpi)
     ax[0].scatter(model.Z[:, 0], model.Z[:, 1], s=1, c='#AAAAAA') # backgroud map
     sns.scatterplot(x=output.Z[:, 0], y=output.Z[:, 1], s=1, hue=output.y, palette='viridis', ax=ax[0], legend=False)
     for i in range(len(subcluster_center.index)):
