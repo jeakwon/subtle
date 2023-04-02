@@ -6,8 +6,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-```
 import subtle
+```
+
 
 # 1. Train model and save results from local data directory
 ```python
@@ -99,13 +100,6 @@ for n in n_superclusters:
 
 # 4. Save data and visualize individual output 
 ```python
-
-# how many superclusters to include for visualization?)
-n_superclusters = [2,3,4,5,6,7,8]
-# the resoludation of figure
-dpi = 300
-
-
 for name, output in zip(names, outputs):
     dirname = os.path.join(SAVE_DIR, name)
     os.makedirs(dirname, exist_ok=True)
