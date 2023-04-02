@@ -163,5 +163,5 @@ for name, output in zip(names, outputs):
     result['name'] = name
     results.append(result)
 df = pd.DataFrame(results).fillna(0).set_index('name').apply(lambda x:x/x.sum(), axis=1)
-df.T.to_csv(os.path.join(dirname, 'subcluster_stay_rate.csv'))
+df.T.to_csv(os.path.join(SAVE_DIR, 'subcluster_stay_rate.csv'))
 ```
