@@ -84,7 +84,7 @@ sns.set('notebook')
 sns.set_style('white')
 
 num_axes = 1+len(n_superclusters)
-fig, ax = plt.subplots(1, num_axes, figsize=(5*num_axes, 5), sharex=True, sharey=True, dpi=dpi)
+fig, ax = plt.subplots(1, num_axes, figsize=(5*num_axes, 5), dpi=dpi)
 sns.scatterplot(x=model.Z[:, 0], y=model.Z[:, 1], s=1, hue=model.y, palette='viridis', ax=ax[0], legend=False)
 for i in range(len(subcluster_center.index)):
     ax[0].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
