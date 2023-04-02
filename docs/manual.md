@@ -90,8 +90,7 @@ for i in range(len(subcluster_center.index)):
     ax[0].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
     ax[0].set_title(f'Subclusters (k={k})')
 
-for n in n_superclusters:
-    idx = n-1
+for idx, n in enumerate(n_superclusters, start=1):
     sns.scatterplot(x=model.Z[:, 0], y=model.Z[:, 1], s=1, hue=model.Y[:, idx], palette='tab10', ax=ax[idx])
     for i in range(len(subcluster_center.index)):
         ax[idx].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
@@ -142,8 +141,7 @@ for name, output in zip(names, outputs):
         ax[0].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
         ax[0].set_title(f'Subclusters (k={k})')
 
-    for n in n_superclusters:
-        idx = n-1
+    for idx, n in enumerate(n_superclusters, start=1):
         ax[idx].scatter(model.Z[:, 0], model.Z[:, 1], s=1, c='#AAAAAA') # backgroud map
         sns.scatterplot(x=output.Z[:, 0], y=output.Z[:, 1], s=1, hue=output.Y[:, idx], palette='tab10', ax=ax[idx])
         for i in range(len(subcluster_center.index)):
