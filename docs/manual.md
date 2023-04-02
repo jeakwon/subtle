@@ -152,3 +152,16 @@ for name, output in zip(names, outputs):
     fig.savefig(os.path.join(dirname, 'embedding_visualize.png'))
     plt.show()
 ```
+
+# 5. Extract subcluster fractions 
+```python
+results = []
+for name, output in zip(names, outputs):
+    subcusters=output.y
+    unique_values, counts = np.unique(subcusters, return_counts=True)
+    result = dict(zip(unique_values, counts))
+    result['name'] = name
+    results.append(result)
+df = pd.DataFrame(results).fillna(0).set_index('name').apply(lambda x:x/x.sum(), axis=1)
+df.T.to_csv('subcluster_stay_rate.csv')
+```
