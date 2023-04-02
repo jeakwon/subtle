@@ -74,14 +74,14 @@ x, y = subcluster_center['dim1'], subcluster_center['dim2']
 sns.set('notebook')
 sns.set_style('white')
 
-include_subclusters = [2,3,4,5,6,7,8]
+n_superclusters = [2,3,4,5,6,7,8]
 fig, ax = plt.subplots(1, 1+len(include_subclusters), figsize=(40, 5), sharex=True, sharey=True, dpi=100)
 sns.scatterplot(x=model.Z[:, 0], y=model.Z[:, 1], s=1, hue=model.y, palette='viridis', ax=ax[0], legend=False)
 for i in range(len(subcluster_center.index)):
     ax[0].text(x[i], y[i], subcluster_center.index[i], ha='center', va='center', fontsize=8)
     ax[0].set_title(f'Subclusters (k={k})')
 
-for n in include_subclusters:
+for n in n_superclusters:
     idx = n-1
     sns.scatterplot(x=model.Z[:, 0], y=model.Z[:, 1], s=1, hue=model.Y[:, idx], palette='tab10', ax=ax[idx])
     for i in range(len(subcluster_center.index)):
