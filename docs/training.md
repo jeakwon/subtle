@@ -27,11 +27,11 @@ outputs = model.fit(datasets)
 results = dict(names=names, outputs=outputs)
 
 # Save model
-model_save_path = os.path.join(SAVE_DIR, model.pkl)
+model_save_path = os.path.join(SAVE_DIR, 'model.pkl')
 model.save(model_save_path)
 
 # Save results
-results_save_path = os.path.join(SAVE_DIR, results.pkl)
+results_save_path = os.path.join(SAVE_DIR, 'results.pkl')
 with open('results.pkl', 'wb') as f:
     pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
 ```
