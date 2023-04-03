@@ -123,10 +123,10 @@ for name, output in zip(names, outputs):
     retention_rate = pd.DataFrame(output.R)
     retention_rate.to_csv(os.path.join(dirname, 'retention_rate.csv'), header=None, index=None)
 
-    # export visualization file
-    visualization_sup = pd.concat([embeddings, superclusters[6]], axis=1)
+    # export visualization file [TODO: this is just for temporary usage]
+    visualization_sup = pd.concat([embeddings, superclusters[6], superclusters[6]], axis=1)
     visualization_sup.to_csv(os.path.join(dirname, 'visualization_sup.csv'), header=None)
-    visualization_sub = pd.concat([embeddings, subclusters], axis=1)
+    visualization_sub = pd.concat([embeddings, subclusters, subclusters], axis=1)
     visualization_sub.to_csv(os.path.join(dirname, 'visualization_sub.csv'), header=None)
 
     # visualize activity
