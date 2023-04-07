@@ -153,7 +153,7 @@ for name, output in zip(names, outputs):
     plt.show()
 ```
 
-# 5. Extract subcluster fractions 
+# 5. Extract subcluster stay rate 
 ```python
 results = []
 for name, output in zip(names, outputs):
