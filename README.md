@@ -26,7 +26,7 @@ Access our (3d action skeleton datasets)[https://github.com/jeakwon/subtle/tree/
 - Frame length : ~12,000 frames
 - Sampling rate : 20 fps
 - Recording time : ~10 minutes
-- Recording system : AVATAR system [paper@biorxiv](https://www.biorxiv.org/content/10.1101/2021.12.31.474634v1), [poster@cv4animals](https://www.cv4animals.com/2022-accepted-papers) [contact@hompage](https://actnova.io/)
+- Recording system : AVATAR system [paper@biorxiv](https://www.biorxiv.org/content/10.1101/2021.12.31.474634v1), [poster@cv4animals](https://www.cv4animals.com/2022-accepted-papers), [contact@hompage](https://actnova.io/)
 - Annotated labels : walking, rearing, standing, grooming, na (not assigned)
 
 # Quick Demo
