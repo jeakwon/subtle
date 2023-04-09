@@ -1,6 +1,7 @@
-# SUBTLE
-SUBTLE (Spectrogram-UMAP-based Temporal Link Embedding) is a animal behavior mapper.
-
+# SUBTLE : SUBTLE automates the tasks of both identifying behavioral states and repertoires such as walking, grooming, standing, and rearing from freely moving mice. Our framework utilizes __Spectrogram-UMAP-based Temporal Link Embedding, which effectively reflects both temporal and kinematic representation in the behavioral embedding space. This embedding strategy allows researchers to better acquire human-like behavioral categorization. For more details, see our paper.
+# Website
+Check out our (website)[https://ibs.re.kr/subtle] for more information and a GUI web page for SUBTLE framework.
+# Installation
 ```
 pip install -U git+https://github.com/jeakwon/subtle.git
 ```
@@ -9,6 +10,16 @@ or
 pip install -U https://github.com/jeakwon/subtle/archive/refs/heads/main.zip
 ```
 
+# Datasets
+Access our (3d action skeleton datasets)[https://github.com/jeakwon/subtle/tree/main/dataset]. 
+- List of files : 19 action skeleton recordings 10 human annotations
+- Frame length : ~12,000 frames
+- Sampling rate : 20 fps
+- Recording time : ~10 minutes
+- Recording system : AVATAR system (paper@biorxiv)[https://www.biorxiv.org/content/10.1101/2021.12.31.474634v1], (poster@cv4animals)[https://www.cv4animals.com/2022-accepted-papers]
+- Annotated labels : walking, rearing, standing, grooming, na (not assigned)
+
+# Quick Demo
 ## Prepare dataset
 ```python
 import subtle
