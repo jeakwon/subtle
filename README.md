@@ -1,6 +1,6 @@
 # SUBTLE framework 
 ![subtle_framework](Subtle_framework.png)
-SUBTLE automates the tasks of both identifying behavioral states and repertoires such as walking, grooming, standing, and rearing from freely moving mice. Our framework utilizes __Spectrogram-UMAP-based Temporal Link Embedding (SUBTLE)__ which effectively reflects both temporal and kinematic representation in the behavioral embedding space. This embedding strategy allows researchers to better acquire human-like behavioral categorization. For more details, see our paper.
+SUBTLE automates the tasks of both identifying behavioral states and repertoires such as walking, grooming, standing, and rearing from freely moving mice. Our framework utilizes __Spectrogram-UMAP-based Temporal Link Embedding (SUBTLE)__ which effectively reflects both temporal and kinematic representation in the behavioral embedding space. This embedding strategy allows researchers to better acquire human-like behavioral categorization. For more details, see our [paper](#).
 # Website
 Check out our [website](https://ibs.re.kr/subtle) for more information and a GUI web page for SUBTLE framework.
 # Installation
