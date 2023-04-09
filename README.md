@@ -21,6 +21,7 @@ Access our (3d action skeleton datasets)[https://github.com/jeakwon/subtle/tree/
 - Annotated labels : walking, rearing, standing, grooming, na (not assigned)
 
 # Quick Demo
+You can try simple demonstration in [colab](https://github.com/jeakwon/subtle/blob/main/subtle_demo.ipynb)
 ## Prepare dataset
 ```python
 import subtle
