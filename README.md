@@ -9,7 +9,7 @@ Check out our [website](https://ibs.re.kr/subtle) for more information and a GUI
 ![grooming_subtle](grooming_subtle.gif)
 ## Walking-like behavior repertoires (supercluster 3)
 ![walking_subtle](walking_subtle.gif)
-## Standing-like behavior repertoires (supercluster 4,5)
+## Standing-like behavior repertoires (supercluster 4, 5)
 ![standing_subtle](standing_subtle.gif)
 # Installation
 ```
