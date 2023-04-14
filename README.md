@@ -1,6 +1,6 @@
 # SUBTLE framework 
 ![subtle_framework](Subtle_framework.png)
-SUBTLE automates the tasks of both identifying behavioral repertoires such as walking, grooming, standing, and rearing from freely moving mice. Our framework utilizes __Spectrogram-UMAP-based Temporal Link Embedding (SUBTLE)__ which effectively reflects both temporal and kinematic representation in the behavioral embedding space. From this embeding space, we create subclusters as behavioral states, which serve as building blocks for identifying superclusters as behavioral repertoires. For more details, see our [paper](#).
+SUBTLE automates the tasks of both identifying behavioral repertoires such as walking, grooming, standing, and rearing from freely moving mice. Our framework utilizes __Spectrogram-UMAP-based Temporal Link Embedding (SUBTLE)__ which effectively reflects both temporal and kinematic representation in the behavioral embedding space. From this embeding space, we create subclusters as behavioral states, which serve as building blocks for identifying superclusters as behavioral repertoires. For more details, see our [paper](https://www.biorxiv.org/content/10.1101/2023.04.12.536531v1).
 # Visualization (Website)
 Check out our [website](https://ibs.re.kr/subtle) for more information and a GUI web page for SUBTLE framework.
 ## Rearing-like behavior repertoires (supercluster 0)
