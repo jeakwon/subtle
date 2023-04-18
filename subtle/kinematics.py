@@ -99,4 +99,4 @@ class Kinematics:
         a = self.a(i, j, k)
         da = np.diff(a, n=n, axis=0, prepend=a[:n])
         dt = self.dt**n
-        return np.linalg.norm(da/dt, axis=1)
+        return da/dt
