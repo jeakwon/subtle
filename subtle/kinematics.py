@@ -81,7 +81,7 @@ class Kinematics:
         e_ji, e_jk = self.e(i, j), self.e(k, j)
         a = np.einsum('ij,ij->i', e_ji, e_jk)
         b = np.linalg.norm(e_ji, axis=1) * np.linalg.norm(e_jk, axis=1) + 1e-12
-        return np.arccos( a / b )
+        return np.arccos( a / b ).reshape(-1, 1)
 
     def V(self, n, i):
         v = self.v(i)
@@ -99,4 +99,4 @@ class Kinematics:
         a = self.a(i, j, k)
         da = np.diff(a, n=n, axis=0, prepend=a[:n])
         dt = self.dt**n
-        return da/dt
+        return np.linalg.norm(da/dt, axis=1)
