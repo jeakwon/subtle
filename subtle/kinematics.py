@@ -43,6 +43,8 @@ class Kinematics:
         self.angles = angles
     
     def __call__(self, X):
+        if X.ndim == 2:
+            X = X.reshape(X.shape[0], X.shape[1]//3, 3)
         self.X = X
         self.dt = 1/self.fs
         T, V, D = X.shape
