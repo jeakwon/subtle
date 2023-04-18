@@ -13,7 +13,7 @@ def transition_matrix(transitions, states):
 
     return pd.DataFrame(data=M, columns=states, index=states)
 
-def proximal_transition_index(transition_matrix, centroids):
+def temporal_proximity_index(transition_matrix, centroids):
     d = pairwise_distances(centroids, centroids)+1e-12
     d_inv = 1/d
     np.fill_diagonal(d_inv, -np.inf)
@@ -34,7 +34,7 @@ def temporal_connectivity(embeddings, ks=[2,4,8,16,32,64,128, 256], seed=None):
         transition_matrix = kn.utils.transition_matrix(labels, range(k))
         transition_probability = normalize(transition_matrix, norm='l1', axis=1)
         centroids = kmeans.cluster_centers_
-        pti = proximal_transition_index(transition_probability, centroids)
+        pti = temporal_proximity_index(transition_probability, centroids)
         ptis.append(pti)
 
     return ptis
