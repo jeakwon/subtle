@@ -18,7 +18,7 @@ avatar_configs={
         'fbody': [1, 3],
         'hbody': [3, 2],
         'head': [0, 1],
-        'larm': [5, 3],
+        'larm': [7, 3],
         'lleg': [5, 2],
         'rarm': [6, 3],
         'rleg': [4, 2],
