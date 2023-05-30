@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
    name='subtle',
-   version='1.0.12',
+   version='1.0.13',
    description='Spectrogram-UMAP-Based Temporal Link Embedding',
    author='Jea Kwon',
    author_email='onlytojay@gmail.com',
