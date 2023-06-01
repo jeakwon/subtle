@@ -34,7 +34,7 @@ def temporal_proximity_index(transition_matrix, centroids):
 def temporal_connectivity(embeddings, ks=[2,4,8,16,32,64,128,256], seed=None):
     tpis = []
     for k in ks:
-        kmeans = MiniBatchKMeans(n_clusters=k, random_state=seed)
+        kmeans = MiniBatchKMeans(n_clusters=k, random_state=seed, n_init='auto')
         labels = kmeans.fit_predict(embeddings)
         tm = transition_matrix(labels, range(k))
         transition_probability = normalize(tm, norm='l1', axis=1)
