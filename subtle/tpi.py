@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from scipy.special import softmax
 from sklearn.metrics import pairwise_distances
 from sklearn.preprocessing import normalize
