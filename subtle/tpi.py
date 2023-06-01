@@ -1,3 +1,6 @@
+from scipy.special import softmax
+from sklearn.metrics import pairwise_distances
+from sklearn.preprocessing import normalize
 from sklearn.cluster import MiniBatchKMeans
 
 def transition_matrix(transitions, states):
@@ -31,8 +34,8 @@ def temporal_connectivity(embeddings, ks=[2,4,8,16,32,64,128,256], seed=None):
     for k in ks:
         kmeans = MiniBatchKMeans(n_clusters=k, random_state=seed)
         labels = kmeans.fit_predict(embeddings)
-        transition_matrix = kn.utils.transition_matrix(labels, range(k))
-        transition_probability = normalize(transition_matrix, norm='l1', axis=1)
+        tm = transition_matrix(labels, range(k))
+        transition_probability = normalize(tm, norm='l1', axis=1)
         centroids = kmeans.cluster_centers_
         tpi = temporal_proximity_index(transition_probability, centroids)
         tpis.append(tpi)
