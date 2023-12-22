@@ -7,6 +7,6 @@ setup(
    author='Jea Kwon',
    author_email='onlytojay@gmail.com',
    packages=find_packages(),  # would be the same as name
-   install_requires=['numpy','pandas','scipy', 'scikit-learn', 'opentsne', 'umap-learn', 'PhenoGraph','tqdm'], 
+   install_requires=['numpy','pandas','scipy', 'scikit-learn', 'opentsne', 'umap-learn', 'PhenoGraph','tqdm','matplotlib', 'seaborn'], 
    python_requires='>=3.7',
 )
